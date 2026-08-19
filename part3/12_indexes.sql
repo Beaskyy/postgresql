@@ -30,3 +30,22 @@ views
 FROM posts
 WHERE status = 'published';
 ORDER BY views DESC;
+
+
+-- composite index
+CREATE INDEX IF NOT EXISTS idx_post_status_views
+ON posts(status, views DESC);
+
+SELECT 
+title,
+status,
+views
+FROM posts
+WHERE user_id = (
+  SELECT id
+  FROM users
+  WHERE name = 'Beasky'
+);
+
+CREATE INDEX IF NOT EXISTS idx_users_name
+ON users(name);
